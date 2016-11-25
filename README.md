@@ -11,13 +11,19 @@ org.jretty.commons.* is a java basic infrastructure component project group, lik
 
 <dependency>
   <groupId>org.jretty.commons</groupId>
+  <artifactId>api-base</artifactId>
+  <version>1.2.0</version>
+</dependency>
+
+<dependency>
+  <groupId>org.jretty.commons</groupId>
   <artifactId>logbackext</artifactId>
   <version>1.2.0</version>
 </dependency>
 
 <dependency>
   <groupId>org.jretty.commons</groupId>
-  <artifactId>basic-api</artifactId>
+  <artifactId>logbackext-kafka</artifactId>
   <version>1.2.0</version>
 </dependency>
 
