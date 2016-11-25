@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  借鉴自 org.apache.commons.*（组件项目群）
+  
+  org.jretty.commons.* 项目为基础组件项目群。
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.jretty</groupId>
+    <artifactId>jretty</artifactId>
+    <version>1.0</version>
+  </parent>
+  <groupId>org.jretty.commons</groupId>
+  <artifactId>commons-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-RELEASE</version>
+  <name>Jretty Commons Parent</name>
+  <url>http://commons.jretty.org/</url>
+  <description>The Jretty Commons Parent POM provides common settings for all Jretty Commons components.</description>
+
+<!-- Release Log
+Versions 1.0:
+
+- Initial Version
+- Created-By Zollty
+ -->
+
+  <!-- Maven versions plugin reports an error if this is omitted -->
+  <prerequisites>
+    <maven>3.0.1</maven>
+  </prerequisites>
+
+  <build>
+    <!-- TODO find a better way to add N&L files to jars and test jars
+         See also maven-remote-resources-plugin configuration below.
+    -->
+    <resources>
+      <!-- This is the default setting from the super-pom -->
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+    <!-- ensure test jars also get NOTICE & LICENSE files -->
+    <testResources>
+      <!-- This is the default setting from the super-pom -->
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+    </testResources>
+    <pluginManagement>
+      <plugins>
+        <!-- org.apache.maven.plugins, alpha order by artifact id -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>1.8</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.6</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>2.6.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${commons.compiler.version}</version>
+          <configuration>
+            <source>${maven.compiler.source}</source>
+            <target>${maven.compiler.target}</target>
+            <encoding>${commons.encoding}</encoding>
+            <!--
+               fork is set true by the java-1.x profiles
+               This allows the use of a different version of the compiler from the
+               JDK being used to run Maven
+            -->
+            <fork>${commons.compiler.fork}</fork>
+            <!-- the following are only needed if fork is true -->
+            <compilerVersion>${commons.compiler.compilerVersion}</compilerVersion>
+            <executable>${commons.compiler.javac}</executable>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+        <!-- Apache parent includes docck -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.6</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+        <!-- Apache parent: invoker -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>2.6</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${commons.javadoc.version}</version>
+          <configuration>
+            <!-- keep only errors and warnings -->
+            <quiet>true</quiet>
+            <encoding>${commons.encoding}</encoding>
+            <docEncoding>${commons.docEncoding}</docEncoding>
+            <notimestamp>true</notimestamp>
+            <links>
+              <link>${commons.javadoc.java.link}</link>
+              <link>${commons.javadoc.javaee.link}</link>
+            </links>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5.3</version>
+        </plugin>
+        <plugin>
+          <!-- TODO see above - find better way to add N&L files to jars and test jars -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-remote-resources-plugin</artifactId>
+          <!-- override old version from Apache pom 13 -->
+          <version>1.5</version>
+          <configuration>
+            <!--
+                Apache parent POM automatically adds "LICENSE" and "NOTICE" files
+                to jars - duplicating the "LICENSE.txt" and "NOTICE.txt"
+                files that components already have.
+             -->
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.7</version>
+        </plugin>
+        <!-- Apache parent: scm -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>${commons.site-plugin.version}</version>
+          <configuration>
+            <!-- don't deploy site with maven-site-plugin -->
+            <skipDeploy>true</skipDeploy>
+          </configuration>
+          <executions>
+            <execution>
+              <id>attach-descriptor</id>
+              <goals>
+                <goal>attach-descriptor</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.4</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${commons.surefire.version}</version>
+        </plugin>
+        <!-- Other plugins, alpha order by groupId and artifactId -->
+        <plugin>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-build-plugin</artifactId>
+          <version>1.4</version>
+          <configuration>
+            <commons.release.name>${commons.release.name}</commons.release.name>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.5.3</version>
+          <inherited>true</inherited>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.rat</groupId>
+          <artifactId>apache-rat-plugin</artifactId>
+          <version>${commons.rat.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>1.9.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>buildnumber-maven-plugin</artifactId>
+          <version>1.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>clirr-maven-plugin</artifactId>
+          <version>${commons.clirr.version}</version>
+          <configuration>
+            <minSeverity>${minSeverity}</minSeverity>
+          </configuration>
+        </plugin>
+        <!-- Apache parent: plexus & modello -->
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <!-- org.apache.maven.plugins, alpha order by artifact id -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <!--
+            commons.surefire.java is normally empty.
+            It is defined by the java-1.x profiles to change the JVM used by Surefire 
+          -->
+          <jvm>${commons.surefire.java}</jvm>
+        </configuration>
+      </plugin>
+      <!-- Other plugins, alpha order by groupId and artifactId -->
+      <plugin>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-build-plugin</artifactId>
+      </plugin>
+
+    </plugins>
+  </build>
+  
+  <!--上传配置 必须
+  <distributionManagement>
+      <repository>
+        <id>releases</id>
+        <name>Releases</name>
+        <url>http://172.16.1.10:8081/nexus/content/repositories/releases/</url>
+      </repository>
+      <snapshotRepository>
+        <id>snapshots</id>
+        <name>Snapshots</name>
+        <url>http://172.16.1.10:8081/nexus/content/repositories/snapshots/</url>
+      </snapshotRepository>
+  </distributionManagement> -->
+
+
+  <profiles>
+
+    <!--
+     | Profile to allow testing of deploy phase
+     | e.g.
+     | mvn deploy -Ptest-deploy -Prelease -Dgpg.skip
+     -->
+    <profile>
+      <id>test-deploy</id>
+      <properties>
+        <altDeploymentRepository>id::default::file:target/deploy</altDeploymentRepository>
+      </properties>
+    </profile>
+
+
+    <!-- profile to allow the use of plugin versions that require Java 7+ -->
+    <profile>
+      <id>jdk7-plugin-fix-version</id>
+      <activation>
+        <jdk>[1.7,)</jdk>
+      </activation>
+      <properties>
+        <!-- TODO should these be separately overrideable properties?
+            early versions are unlikely to be updated, but current latest will be
+         -->
+        <commons.findbugs.version>3.0.0</commons.findbugs.version>
+        <!-- Since 1.13 running maven with Java7 is required, 1.14 also supports Java8 class files (ASM 5.0) -->
+        <commons.animal-sniffer.version>1.14</commons.animal-sniffer.version>
+      </properties>
+    </profile>
+
+    <!-- allow simple creation of the site without any optional reports -->
+    <profile>
+      <id>site-basic</id>
+      <properties>
+        <skipTests>true</skipTests>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <cobertura.skip>true</cobertura.skip>
+        <findbugs.skip>true</findbugs.skip>
+        <checkstyle.skip>true</checkstyle.skip>
+        <clirr.skip>true</clirr.skip>
+        <changes.jira.skip>true</changes.jira.skip>
+        <rat.skip>true</rat.skip> <!-- from version 0.12 -->
+        <jacoco.skip>true</jacoco.skip>
+        <skipSurefireReport>true</skipSurefireReport>
+      </properties>
+    </profile>
+
+  </profiles>
+
+  <properties>
+    <!-- configuration bits for cutting a release candidate, must be overridden by components -->
+    <commons.release.version>${project.version}</commons.release.version>
+    <commons.rc.version>RC1</commons.rc.version>
+    <commons.jira.id>COMMONSSITE</commons.jira.id>
+
+    <!-- Default configuration for compiler source and target JVM -->
+    <!-- Do NOT change this; it must remain as 1.6 -->
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
+
+    <!-- compiler and surefire plugin settings for "java" profiles -->
+    <commons.compiler.fork>false</commons.compiler.fork>
+    <commons.compiler.compilerVersion />
+    <commons.compiler.javac />
+    <commons.surefire.java />
+
+    <!-- plugin versions (allows same value in reporting and build sections) -->
+    <commons.surefire.version>2.18.1</commons.surefire.version>
+    <commons.surefire-report.version>2.18.1</commons.surefire-report.version>
+    <commons.javadoc.version>2.10.3</commons.javadoc.version>
+    <commons.rat.version>0.11</commons.rat.version>
+    <commons.changes.version>2.11</commons.changes.version>
+    <commons.clirr.version>2.6.1</commons.clirr.version>
+    <commons.jxr.version>2.5</commons.jxr.version>
+    <commons.project-info.version>2.8</commons.project-info.version>
+    <commons.wagon-ssh.version>2.8</commons.wagon-ssh.version>
+    <commons.site-plugin.version>3.4</commons.site-plugin.version>
+    <commons.compiler.version>3.3</commons.compiler.version>
+    <commons.findbugs.version>2.5.5</commons.findbugs.version>
+    <!-- plugin versions 1.12 and 1.13 currently require Java 7 -->
+    <commons.animal-sniffer.version>1.11</commons.animal-sniffer.version>
+
+    <!-- Default values for the download-page generation by commons-build-plugin -->
+    <commons.release.name>${project.artifactId}-${commons.release.version}</commons.release.name>
+    <commons.release.desc />
+    <commons.binary.suffix>-bin</commons.binary.suffix>
+
+    <!-- Commons Component Id -->
+    <commons.componentid>${project.artifactId}</commons.componentid>
+
+    <!--
+      Encoding of Java source files: ensures that the compiler and
+      the javadoc generator use the right encoding. Subprojects may
+      overwrite this, if they are using another encoding.
+    -->
+    <commons.encoding>utf-8</commons.encoding>
+    <!-- used in this pom to provide the Javadoc HTML file encoding -->
+    <commons.docEncoding>${commons.encoding}</commons.docEncoding>
+    <!-- Define source encoding for filtering; used by general plugins -->
+    <project.build.sourceEncoding>${commons.encoding}</project.build.sourceEncoding>
+    <!-- This is used by reporting plugins -->
+    <project.reporting.outputEncoding>${commons.encoding}</project.reporting.outputEncoding>
+
+    <!-- Javadoc link to Java API.  Default is Java 1.7; components can override to other versions -->
+    <commons.javadoc.java.link>http://docs.oracle.com/javase/7/docs/api/</commons.javadoc.java.link>
+    <commons.javadoc.javaee.link>http://docs.oracle.com/javaee/6/api/</commons.javadoc.javaee.link>
+
+    <!-- build meta inf -->
+    <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
+
+    <!-- Allow Clirr severity to be overriden by the command-line option -DminSeverity=level -->
+    <minSeverity>info</minSeverity>
+
+  </properties>
+
+</project>
