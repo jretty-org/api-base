@@ -138,8 +138,7 @@ public class ServletFileDownload {
     private static String praseAttachmentFilename(String fileName, HttpServletRequest request) 
             throws UnsupportedEncodingException {
         String rtn;
-        UserAgentParser uap = new UserAgentParser(request);
-        if (uap.isMSIEBrowser()) {
+        if (isMSIEBrowser(request)) {
             rtn = "filename=" + URLEncoder.encode(fileName, Const.UTF_8);
         }
         else {
@@ -149,6 +148,15 @@ public class ServletFileDownload {
         // if (userAgent.indexOf("opera") != -1) {
         // rtn = "filename*=UTF-8''" + newFileName;
         // }
+        return rtn;
+    }
+    
+    private static boolean isMSIEBrowser(HttpServletRequest request) {
+        String userAgentString = request.getHeader("User-Agent");
+        boolean rtn = false;
+        if (userAgentString != null && userAgentString.indexOf("MSIE") != -1) {
+            rtn = true;
+        }
         return rtn;
     }
 
