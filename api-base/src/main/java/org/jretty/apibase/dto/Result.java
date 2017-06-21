@@ -1,3 +1,15 @@
+/* 
+ * Copyright (C) 2015-2016 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * Create by ZollTy on 2015-9-14 (http://blog.zollty.com/, zollty@163.com)
+ */
 package org.jretty.apibase.dto;
 
 import java.util.Collection;
@@ -20,16 +32,12 @@ import java.util.Map;
  * 
  * or you can do chained callings like below:<br/><br/>
  *
- * result.data(data).code("SomeCode").description("SomeDescription").success(); <br/>
+ * result.data(data).code("SomeCode").msg("SomeDescription").success(); <br/>
  * 
  * @author zollty
  * @since 2015/9/14
  */
 public class Result<T> extends BaseResult {
-
-    /**
-     * serialVersionUID
-     */
     private static final long serialVersionUID = 1L;
 
     /**
@@ -37,16 +45,12 @@ public class Result<T> extends BaseResult {
      */
     private T data;
     
+    private IMsg iMsg;
+    
+    private boolean putData = false;
+    
     public Result() {
-    }
-
-    public Result(T data) {
-        this.data = data;
-    }
-
-    public Result(T data, String sid) {
-        this.data = data;
-        this.setSid(sid);
+        setTimestamp(System.currentTimeMillis());
     }
 
     public T getData() {
@@ -54,7 +58,16 @@ public class Result<T> extends BaseResult {
     }
 
     public void setData(T data) {
-        this.data = data;
+        if (data != null) {
+            this.data = data;
+            super.put("data", data);
+        }
+    }
+    
+    public void setLocale(String locale) {
+        if (iMsg != null && locale != null) {
+            this.setMsg(iMsg.getMsg(locale));
+        }
     }
 
     /**
@@ -62,7 +75,7 @@ public class Result<T> extends BaseResult {
      * 
      * @return
      */
-    public boolean failedOrDataEmpty() {
+    public boolean isFailedOrEmpty() {
         return !isSuccess() || dataEmpty();
     }
 
@@ -77,13 +90,15 @@ public class Result<T> extends BaseResult {
      * @return TRUE if data is null or empty
      */
     public boolean dataEmpty() {
+        if (putData) {
+            return false;
+        }
         if (data == null) {
             return true;
         }
-
         if (data instanceof String) {
             String str = (String) data;
-            return "".equals(str.trim());
+            return "".equals(str);
         } else if (data instanceof Collection) {
             Collection<?> list = (Collection<?>) data;
             return list.isEmpty();
@@ -101,60 +116,60 @@ public class Result<T> extends BaseResult {
     }
 
     // ～～～～～～～～～～～～～以下是链式编程方法，用于构造Result对象
+    
+    public static <T> Result<T> success() {
+        return success((T) null);
+    }
 
-    /**
-     * New一个 T 类型的Result，默认success为false
-     */
-    public static <T> Result<T> create(Class<T> t) {
+    public static <T> Result<T> success(T data) {
         Result<T> result = new Result<T>();
-        result.setSuccess(false);
+        result.setSuccess(true);
+        result.setData(data);
+        return result;
+    }
+    
+    public static <T> Result<T> success(Map<String, ?> map) {
+        Result<T> result = new Result<T>();
+        result.setSuccess(true);
+        if (map != null && !map.isEmpty()) {
+            result.putData = true;
+            result.putAll(map);
+        }
         return result;
     }
 
-    /**
-     * New一个 T 类型的Result，默认success为false
-     */
-    public static <T> Result<T> create() {
+    public static <T> Result<T> fail(String code, String description) {
         Result<T> result = new Result<T>();
         result.setSuccess(false);
+        result.setCode(code);
+        result.setMsg(description);
         return result;
     }
 
-    public Result<T> success() {
-        success(null);
-        return this;
+    public static <T> Result<T> fail(BaseResult baseResult) {
+        return fail(baseResult.getCode(), baseResult.getMsg());
+    }
+    
+    public static <T> Result<T> fail(IMsg msg) {
+        final Result<T> result = new Result<T>();
+        result.setSuccess(false);
+        result.iMsg = msg;
+        result.setCode(msg.getCode());
+        result.setMsg(msg.getMsg());
+        return result;
     }
 
-    public Result<T> success(T data) {
-        this.setSuccess(true);
-        this.data = data;
-        return this;
+    public static <T> Result<T> fail(String msg) {
+        return fail("500", msg);
     }
-
-    public Result<T> fail(String code, String description) {
-        this.setSuccess(false);
-        this.setCode(code);
-        this.setDescription(description);
-        return this;
-    }
-
-    public Result<T> fail(BaseResult baseResult) {
-        fail(baseResult.getCode(), baseResult.getDescription());
-        return this;
-    }
-
-    public Result<T> fail(String code) {
-        fail(code, null);
-        return this;
-    }
-
+    
     public Result<T> code(String code) {
         this.setCode(code);
         return this;
     }
 
-    public Result<T> description(String description) {
-        this.setDescription(description);
+    public Result<T> msg(String msg) {
+        this.setMsg(msg);
         return this;
     }
 
@@ -162,9 +177,20 @@ public class Result<T> extends BaseResult {
         this.setSid(sid);
         return this;
     }
+    
+    public Result<T> timestamp(Long timestamp) {
+        this.setTimestamp(timestamp);
+        return this;
+    }
 
     public Result<T> data(T data) {
-        this.data = data;
+        this.setData(data);
+        return this;
+    }
+    
+    public Result<T> put(String key, Object value) {
+        this.putData = true;
+        super.put(key, value);
         return this;
     }
 }

@@ -1,6 +1,18 @@
+/* 
+ * Copyright (C) 2015-2016 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * Create by ZollTy on 2015-9-14 (http://blog.zollty.com/, zollty@163.com)
+ */
 package org.jretty.apibase.dto;
 
-import java.io.Serializable;
+import java.util.HashMap;
 
 /**
  * 基础回复类
@@ -8,12 +20,11 @@ import java.io.Serializable;
  * @author zollty
  * @since 2015/9/14
  */
-public class BaseResult implements Serializable {
-
+public class BaseResult extends HashMap<String, Object> {
     private static final long serialVersionUID = 2991693728111260232L;
 
     /**
-     * 请求标识号
+     * 返回标识号
      */
     private String sid;
 
@@ -24,7 +35,9 @@ public class BaseResult implements Serializable {
     private String code;
 
     /** 描述 */
-    private String description;
+    private String msg;
+    
+    private Long timestamp;
 
     /**
      * @return the sid
@@ -34,11 +47,11 @@ public class BaseResult implements Serializable {
     }
 
     /**
-     * @param sid
-     *            the sid to set
+     * @param sid 唯一ID
      */
     public void setSid(String sid) {
         this.sid = sid;
+        super.put("sid", sid);
     }
 
     /**
@@ -50,10 +63,10 @@ public class BaseResult implements Serializable {
 
     /**
      * @param success
-     *            the success to set
      */
     public void setSuccess(boolean success) {
         this.success = success;
+        super.put("success", success);
     }
 
     /**
@@ -65,32 +78,34 @@ public class BaseResult implements Serializable {
 
     /**
      * @param code
-     *            the code to set
      */
     public void setCode(String code) {
         this.code = code;
+        super.put("code", code);
     }
 
     /**
      * @return the description
      */
-    public String getDescription() {
-        return description;
+    public String getMsg() {
+        return msg;
     }
 
     /**
      * @param description
-     *            the description to set
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setMsg(String msg) {
+        this.msg = msg;
+        super.put("msg", msg);
     }
 
-    @Override
-    public String toString() {
-        return "BaseResult [" + (sid != null ? "sid=" + sid + ", " : "") + "success=" + success + ", "
-                + (code != null ? "code=" + code + ", " : "")
-                + (description != null ? "description=" + description : "") + "]";
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+        super.put("timestamp", timestamp);
     }
 
 }
