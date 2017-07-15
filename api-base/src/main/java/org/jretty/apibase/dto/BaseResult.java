@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2015-2016 the original author or authors.
+ * Copyright (C) 2015-2017 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License").
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import java.util.HashMap;
  * @author zollty
  * @since 2015/9/14
  */
-public class BaseResult extends HashMap<String, Object> {
+public class BaseResult extends HashMap<Object, Object> {
     private static final long serialVersionUID = 2991693728111260232L;
 
     /**

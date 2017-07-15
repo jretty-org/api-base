@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2015-2016 the original author or authors.
+ * Copyright (C) 2015-2017 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License").
  * you may not use this file except in compliance with the License.
@@ -19,20 +19,18 @@ import java.util.Map;
 /**
  * 泛型结果类（包含返回data）<br/>
  * 
- * Result&lt;T&gt; result = Result.create();<br/>
- * ...<br/>
- * return result.success();<br/>
+ * return Result.success();<br/>
  * or <br/>
  * return result.success(data);<br/>
  * or <br/>
- * return result.fail("SomeErrorCode","SomeDescription")<br/>
+ * return result.fail("some description")<br/>
  * or <br/>
- * return result.fail("SomeErrorCode") <br/>
+ * return result.fail(IMsg msg) <br/>
  * <br/>
  * 
  * or you can do chained callings like below:<br/><br/>
  *
- * result.data(data).code("SomeCode").msg("SomeDescription").success(); <br/>
+ * result.success().put("user", "admin").put("menuList", menuList); <br/>
  * 
  * @author zollty
  * @since 2015/9/14
@@ -46,8 +44,6 @@ public class Result<T> extends BaseResult {
     private T data;
     
     private IMsg iMsg;
-    
-    private boolean putData = false;
     
     public Result() {
         setTimestamp(System.currentTimeMillis());
@@ -90,7 +86,8 @@ public class Result<T> extends BaseResult {
      * @return TRUE if data is null or empty
      */
     public boolean dataEmpty() {
-        if (putData) {
+        // 默认就有两个字段：{"success":true,"timestamp":1500117047167}
+        if (super.size() > 2) {
             return false;
         }
         if (data == null) {
@@ -128,11 +125,10 @@ public class Result<T> extends BaseResult {
         return result;
     }
     
-    public static <T> Result<T> success(Map<String, ?> map) {
+    public static <T> Result<T> success(Map<?, ?> map) {
         Result<T> result = new Result<T>();
         result.setSuccess(true);
         if (map != null && !map.isEmpty()) {
-            result.putData = true;
             result.putAll(map);
         }
         return result;
@@ -188,9 +184,9 @@ public class Result<T> extends BaseResult {
         return this;
     }
     
-    public Result<T> put(String key, Object value) {
-        this.putData = true;
+    public Result<T> put(Object key, Object value) {
         super.put(key, value);
         return this;
     }
+
 }
