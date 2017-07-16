@@ -10,7 +10,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * Create by ZollTy on 2017-6-6 (http://blog.zollty.com/, zollty@163.com)
  */
-package org.jretty.apibase.dto;
+package org.jretty.apibase;
 
 /**
  * 包含 code + description 的消息，且可以根据 Locale 获取不同的语言版本的description

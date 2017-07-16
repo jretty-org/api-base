@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2015-2016 the original author or authors.
+ * Copyright (C) 2015-2017 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License").
  * you may not use this file except in compliance with the License.
@@ -10,7 +10,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * Create by ZollTy on 2015-9-14 (http://blog.zollty.com/, zollty@163.com)
  */
-package org.jretty.apibase.dto;
+package org.jretty.apibase;
 
 /**
  * 泛型请求类（包含请求data）<br/>

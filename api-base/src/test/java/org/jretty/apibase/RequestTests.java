@@ -1,5 +1,6 @@
-package org.jretty.apibase.dto;
+package org.jretty.apibase;
 
+import org.jretty.apibase.Request;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ public class RequestTests {
 
         String json = JSON.toJSONString(ret);
 
-        System.out.println(json);
+        // System.out.println(json);
 
         Assert.assertTrue(json.contains("\"data\":1024"));
     }

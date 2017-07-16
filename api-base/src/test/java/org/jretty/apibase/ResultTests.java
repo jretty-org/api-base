@@ -1,4 +1,4 @@
-package org.jretty.apibase.dto;
+package org.jretty.apibase;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.jretty.apibase.Result;
 import org.junit.Assert;
 import org.junit.Test;
 

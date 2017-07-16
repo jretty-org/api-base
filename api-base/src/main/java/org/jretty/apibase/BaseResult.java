@@ -10,7 +10,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * Create by ZollTy on 2015-9-14 (http://blog.zollty.com/, zollty@163.com)
  */
-package org.jretty.apibase.dto;
+package org.jretty.apibase;
 
 import java.util.HashMap;
 

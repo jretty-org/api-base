@@ -1,5 +1,20 @@
-package org.jretty.apibase.dto;
+package org.jretty.apibase;
 
+import org.jretty.apibase.IMsg;
+
+/**
+ * 项目统一的异常代码定义
+ * <p>
+ * ReadMe：
+ * ----每一条错误信息应该包括：错误代码和注释。
+ * <p>
+ * ----错误代码（code）命名规范如下：
+ * 总长度在30以内，易于区别错误所属的模块(或类型)，字母后面可以跟3~4个数字
+ * <p>
+ * ----特别提醒：
+ * 
+ *  一定要写注释，方便自己和别人快速查看！ 代码格式请保持统一！
+ */
 public enum Msg implements IMsg {
     
     // -- 公用的、常见的错误类型
