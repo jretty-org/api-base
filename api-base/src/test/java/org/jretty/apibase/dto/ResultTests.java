@@ -18,6 +18,83 @@ import com.alibaba.fastjson.JSON;
  * @since 2015/9/14
  */
 public class ResultTests {
+    
+    // --------------------------用法示例：
+    
+    // 1. 成功时有data
+    public Result<User> query() {
+        User data = new User();
+        int flag = 1;
+        if (flag > 0) {
+            return Result.success(data);
+        }
+        return Result.fail();
+    }
+
+    // 2. 成功时无data
+    public Result<User> query2() {
+        int flag = 1;
+        if (flag > 0) {
+            return Result.success();
+        }
+        return Result.fail();
+    }
+    
+    // 3. 成功返回无data，但有map数据
+    public Result<Object> query3() {
+        int flag = 1;
+        if (flag > 0) {
+            return Result.success().put(10086L, "admin").put("user", "abc");
+        }
+        return Result.fail();
+    }
+    
+    // 4. 成功返回无data，但有多段map数据
+    public Result<Object> query4() {
+        int flag = 1;
+        Result<Object> ret = Result.success();
+        if (flag > 0) {
+            ret.put(10086L, "admin");
+        }
+        if (flag > 24) {
+            ret.put("user", "abc");
+        }
+        if (flag < -1) {
+            return Result.fail();
+        }
+        return ret;
+    }
+    
+    // 5. 失败时有data
+    public Result<User> query5() {
+        User data = new User();
+        int flag = 1;
+        if (flag > 0) {
+            return Result.success(data);
+        }
+        
+        Result<User> ret = Result.fail();
+        ret.data(data);
+        // 或者 return Result.create(data).success(false);
+        return ret;
+    }
+    
+    // 6. 成功、失败都有多段map数据
+    public Result<Object> query6() {
+        int flag = 1;
+        Result<Object> ret = Result.create();
+        if (flag > 0) {
+            ret.put(10086L, "admin");
+        }
+        if (flag > 24) {
+            ret.put("user", "abc");
+        }
+        
+        boolean isSuccess = false;
+        
+        return ret.success(isSuccess);
+    }
+    
 
     @Test
     public void testSuccess() {
@@ -125,7 +202,18 @@ public class ResultTests {
     }
     
     @Test
-    public void tests() {
+    public void testFail1() {
+        
+        Result<?> ret = Result.fail();
+        
+        String json = JSON.toJSONString(ret);
+        
+        //System.out.println(json);
+        Assert.assertTrue(json.contains("500"));
+    }
+    
+    @Test
+    public void testFail2() {
         
         Result<?> ret = Result.fail(Msg.EXCEPTION);
         ret.setLocale(Locale.US.toString());
@@ -146,6 +234,20 @@ public class ResultTests {
         Assert.assertTrue(json.contains("\"success\":false"));
         Assert.assertTrue(json.contains("\"code\":\"0x0001\""));
         Assert.assertTrue(json.contains("\"msg\":\"data can not be null.\""));
+    }
+    
+    
+    @Test
+    public void tests() {
+
+        int flag = 1;
+
+        Result<?> ret = Result.create().success(flag > 0);
+
+        String json = JSON.toJSONString(ret);
+
+        Assert.assertTrue(ret.isSuccess());
+        Assert.assertTrue(json.contains("\"success\":true"));
     }
     
     
