@@ -203,6 +203,10 @@ public class Result<T> extends BaseResult {
         this.setSuccess(success);
         return this;
     }
+    
+    public Result<T> failed() {
+        return success(false);
+    }
 
     public Result<T> sid(String sid) {
         this.setSid(sid);
