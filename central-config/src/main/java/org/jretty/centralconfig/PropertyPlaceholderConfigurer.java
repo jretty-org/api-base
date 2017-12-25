@@ -2,14 +2,10 @@ package org.jretty.centralconfig;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.jretty.centralconfig.ConfigChangedLogListener;
-import org.jretty.centralconfig.ConfigHolder;
-import org.jretty.centralconfig.ConfigSyncManager;
-import org.jretty.centralconfig.LocalPropsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -41,7 +37,7 @@ public class PropertyPlaceholderConfigurer
     public void afterPropertiesSet() throws Exception {
         LocalPropsService localPropsService = new LocalPropsService();
 
-        Map<String, Properties> propsMap = new HashMap<String, Properties>();
+        Map<String, Properties> propsMap = new LinkedHashMap<String, Properties>();
 
         for (int i = 0; i < locations.length; i++) {
             Properties tmp = getProperties(locations[i]);
