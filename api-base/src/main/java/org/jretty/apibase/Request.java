@@ -55,8 +55,6 @@ public class Request<T> extends BaseRequest {
     // ～～～～～～～～～～～～～以下是链式编程方法，用于构造Request对象
     /**
      * New一个 T 类型的Request对象
-     * 
-     * @return Request&ltT&gt对象
      */
     public static <T> Request<T> data() {
         Request<T> result = new Request<T>();

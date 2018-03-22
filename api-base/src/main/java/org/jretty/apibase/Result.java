@@ -80,8 +80,6 @@ public class Result<T> extends BaseResult {
 
     /**
      * 失败或者返回数据为空
-     * 
-     * @return
      */
     public boolean isFailedOrEmpty() {
         return !isSuccess() || dataEmpty();

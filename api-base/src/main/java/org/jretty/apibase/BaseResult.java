@@ -92,7 +92,7 @@ public class BaseResult extends HashMap<Object, Object> {
     }
 
     /**
-     * @param description
+     * @param msg
      */
     public void setMsg(String msg) {
         this.msg = msg;

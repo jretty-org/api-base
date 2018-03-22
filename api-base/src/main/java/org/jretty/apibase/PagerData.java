@@ -41,9 +41,6 @@ public class PagerData<T> extends Pager implements Serializable {
     
     /**
      * 分页
-     * @param list        列表数据
-     * @param pageSize    每页记录数
-     * @param pageNum     当前页数
      */
     public static <T> PagerData<T> create() {
         return new PagerData<T>();
