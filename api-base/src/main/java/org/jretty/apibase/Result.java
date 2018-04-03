@@ -46,6 +46,7 @@ public class Result<T> extends BaseResult {
     private T data;
     
     private IMsg imsg;
+    private String[] params;
     
     public Result() {
         setTimestamp(System.currentTimeMillis());
@@ -62,19 +63,13 @@ public class Result<T> extends BaseResult {
         }
     }
     
-    public void setImsg(IMsg imsg) {
+    public void setImsg(IMsg imsg, String... params) {
         this.imsg = imsg;
-        this.setCode(imsg.getCode());
-        this.setMsg(imsg.getMsg());
-    }
-    
-    public IMsg getImsg() {
-        return imsg;
     }
     
     public void setLocale(String locale) {
         if (imsg != null && locale != null) {
-            this.setMsg(imsg.getMsg(locale));
+            this.setMsg(InnerUtils.replaceParams(imsg.getMsg(locale), params));
         }
     }
 
@@ -143,12 +138,19 @@ public class Result<T> extends BaseResult {
         return result;
     }
 
-    public static <T> Result<T> fail(String msg) {
-        return fail(null, msg);
+    public static <T> Result<T> fail() {
+        Result<T> result = new Result<T>();
+        result.setSuccess(false);
+        result.setCode(Result.defaultErrorCode);
+        return result;
     }
     
-    public static <T> Result<T> fail() {
-        return fail(null, null);
+    public static <T> Result<T> fail(String description) {
+        Result<T> result = new Result<T>();
+        result.setSuccess(false);
+        result.setCode(Result.defaultErrorCode);
+        result.setMsg(description);
+        return result;
     }
     
     public static <T> Result<T> fail(String code, String description) {
@@ -159,10 +161,10 @@ public class Result<T> extends BaseResult {
         return result;
     }
     
-    public static <T> Result<T> fail(IMsg imsg) {
+    public static <T> Result<T> fail(IMsg imsg, String... params) {
         final Result<T> result = new Result<T>();
         result.setSuccess(false);
-        result.setImsg(imsg);
+        result.imsg(imsg, params);
         return result;
     }
     
@@ -176,15 +178,6 @@ public class Result<T> extends BaseResult {
     /** 创建一个Result对象并设置data，稍后才为其设置success状态和其他数据。success默认为true */
     public static <T> Result<T> create(T data) {
         return success(data);
-    }
-    
-    public static <T> Result<T> create(BaseResult baseResult) {
-        Result<T> result = new Result<T>();
-        result.sid(baseResult.getSid())
-              .code(baseResult.getCode()).msg(baseResult.getMsg())
-              .timestamp(baseResult.getTimestamp())
-              .success(baseResult.isSuccess());
-        return result;
     }
     
     public Result<T> code(String code) {
@@ -221,8 +214,11 @@ public class Result<T> extends BaseResult {
         return this;
     }
     
-    public Result<T> imsg(IMsg imsg) {
-        this.setImsg(imsg);
+    public Result<T> imsg(IMsg imsg, String... params) {
+        this.imsg = imsg;
+        this.params = params;
+        this.setCode(imsg.getCode());
+        this.setMsg(InnerUtils.replaceParams(imsg.getMsg(), params));
         return this;
     }
     

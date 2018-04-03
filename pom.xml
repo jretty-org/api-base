@@ -307,6 +307,16 @@ Versions 1.0:
         <commons.animal-sniffer.version>1.14</commons.animal-sniffer.version>
       </properties>
     </profile>
+    
+    <profile>
+      <id>disable-javadoc-doclint</id>
+      <activation>
+        <jdk>[1.7,)</jdk>
+      </activation>
+      <properties>
+        <additionalparam>-Xdoclint:none</additionalparam>
+      </properties>
+    </profile>
 
     <!-- allow simple creation of the site without any optional reports -->
     <profile>

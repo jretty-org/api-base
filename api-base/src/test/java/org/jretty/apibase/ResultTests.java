@@ -216,13 +216,14 @@ public class ResultTests {
     @Test
     public void testFail2() {
         
-        Result<?> ret = Result.fail(Msg.EXCEPTION);
-        ret.setLocale(Locale.US.toString());
+        Result<?> ret = Result.fail(Msg.PARAM_INVALID, "username");
         
         String json = JSON.toJSONString(ret);
+        Assert.assertTrue(json.contains("无效的参数：username"));
         
-        //System.out.println(json);
-        Assert.assertTrue(json.contains("System error."));
+        ret.setLocale(Locale.US.toString());
+        json = JSON.toJSONString(ret);
+        Assert.assertTrue(json.contains("Illegal arguments: username"));
     }
 
     @Test

@@ -38,7 +38,6 @@ public class PagerData<T> extends Pager implements Serializable {
      */
     private List<T> list = new ArrayList<T>();
     
-    
     /**
      * 分页
      */
