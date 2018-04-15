@@ -72,6 +72,13 @@ public class Result<T> extends BaseResult {
             this.setMsg(InnerUtils.replaceParams(imsg.getMsg(locale), params));
         }
     }
+    
+    /**
+     * !isSuccess()
+     */
+    public boolean isFailed() {
+        return !isSuccess();
+    }
 
     /**
      * 失败或者返回数据为空
