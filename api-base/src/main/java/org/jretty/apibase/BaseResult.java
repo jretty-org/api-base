@@ -29,7 +29,7 @@ public class BaseResult extends HashMap<Object, Object> {
     private String sid;
 
     /** 成功标志 */
-    private boolean success;
+    private Boolean success;
 
     /** 信息码 */
     private String code;
@@ -57,7 +57,7 @@ public class BaseResult extends HashMap<Object, Object> {
     /**
      * @return the success
      */
-    public boolean isSuccess() {
+    public Boolean isSuccess() {
         return success;
     }
 
@@ -99,11 +99,11 @@ public class BaseResult extends HashMap<Object, Object> {
         super.put("msg", msg);
     }
 
-    public long getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Long timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
         super.put("timestamp", timestamp);
     }

@@ -32,7 +32,7 @@ public class ApplicationStarter extends SpringApplication {
     }
     
     public static SpringApplicationBuilder builder() {
-        SpringApplicationBuilder builder = new SpringApplicationBuilderExt();
+        SpringApplicationBuilder builder = new SpringApplicationBuilderOverride();
         return builder;
     }
     
@@ -84,6 +84,15 @@ public class ApplicationStarter extends SpringApplication {
      */
     public static void main(String[] args) throws Exception {
         ApplicationStarter.run(new Object[0], args);
+    }
+    
+    private static class SpringApplicationBuilderOverride extends SpringApplicationBuilder {
+        
+        @Override
+        protected SpringApplication createSpringApplication(Object... sources) {
+            return new ApplicationStarter(sources);
+        }
+
     }
 
 }

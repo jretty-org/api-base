@@ -52,19 +52,21 @@ public class Result<T> extends BaseResult {
         setTimestamp(System.currentTimeMillis());
     }
 
+    @SuppressWarnings("unchecked")
     public T getData() {
-        return data;
+        return (T) super.get("data");
     }
 
-    public void setData(T data) {
+    private void setData(T data) {
         if (data != null) {
             this.data = data;
             super.put("data", data);
         }
     }
     
-    public void setImsg(IMsg imsg, String... params) {
+    private void setImsg(IMsg imsg, String... params) {
         this.imsg = imsg;
+        this.params = params;
     }
     
     public void setLocale(String locale) {
@@ -102,6 +104,7 @@ public class Result<T> extends BaseResult {
         if (super.size() > 2) {
             return false;
         }
+        data = getData();
         if (data == null) {
             return true;
         }
@@ -222,8 +225,7 @@ public class Result<T> extends BaseResult {
     }
     
     public Result<T> imsg(IMsg imsg, String... params) {
-        this.imsg = imsg;
-        this.params = params;
+        this.setImsg(imsg, params);
         this.setCode(imsg.getCode());
         this.setMsg(InnerUtils.replaceParams(imsg.getMsg(), params));
         return this;
@@ -233,8 +235,46 @@ public class Result<T> extends BaseResult {
         super.put(key, value);
         return this;
     }
+    
+    public Result<T> putMap(Map<Object, Object> m) {
+        super.putAll(m);
+        return this;
+    }
 
     public static void setDefaultErrorCode(String defaultErrorCode) {
         Result.defaultErrorCode = defaultErrorCode;
+    }
+    
+    // override super
+    /**
+     * @return the sid
+     */
+    public String getSid() {
+        return (String) super.get("sid");
+    }
+    
+    /**
+     * @return the success
+     */
+    public Boolean isSuccess() {
+        return (Boolean) super.get("success");
+    }
+    
+    /**
+     * @return the code
+     */
+    public String getCode() {
+        return (String) super.get("code");
+    }
+    
+    /**
+     * @return the description
+     */
+    public String getMsg() {
+        return (String) super.get("msg");
+    }
+    
+    public Long getTimestamp() {
+        return (Long) super.get("timestamp");
     }
 }
