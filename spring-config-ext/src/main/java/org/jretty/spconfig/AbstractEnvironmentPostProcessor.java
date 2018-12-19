@@ -55,7 +55,7 @@ abstract public class AbstractEnvironmentPostProcessor {
         propertySources.addFirst(new PropertiesPropertySource(name, source));
         
         logger.info(name + " final config value = " + 
-                UT.Props.sortMapByKey(source, true).toString());
+                UTI.Props.sortMapByKey(source, true).toString());
         
         configPropsAll.putAll(source);
     }
@@ -65,7 +65,7 @@ abstract public class AbstractEnvironmentPostProcessor {
         propertySources.addFirst(new PropertiesPropertySource(name, source));
         
         logger.info(name + " final  config value = " + 
-                UT.Props.sortMapByKey(source, true).toString());
+                UTI.Props.sortMapByKey(source, true).toString());
         
         configPropsAll.putAll(source);
     }
@@ -96,7 +96,7 @@ abstract public class AbstractEnvironmentPostProcessor {
                         ? name + ".properties" : "classpath:" + name + ".properties";
                 
                 logger.info("配置优先级别-add2Head: 读取本地配置-" + name);
-                Properties tmp = UT.Props.readConf(resolver, name);
+                Properties tmp = UTI.Props.readConf(resolver, name);
                 if (tmp != null) {
                     add2Head(name, tmp);
                 } else {

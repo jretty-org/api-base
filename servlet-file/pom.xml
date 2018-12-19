@@ -17,6 +17,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java-version>1.6</java-version>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -29,8 +31,8 @@
     
     <dependency>
       <groupId>org.jretty</groupId>
-      <artifactId>jretty-util</artifactId>
-      <version>1.2.0</version>
+      <artifactId>jretty-util-basic</artifactId>
+      <version>1.0.0</version>
     </dependency>
 
     <dependency>
@@ -39,7 +41,6 @@
       <version>2.5</version>
       <scope>provided</scope>
     </dependency>
-
 
     <!-- junit -->
     <dependency>

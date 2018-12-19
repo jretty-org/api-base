@@ -21,9 +21,9 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
  * @author zollty
  * @since 2018年3月1日
  */
-class UT {
+class UTI {
     
-    private static final Log LOG = LogFactory.getLog(UT.class);
+    private static final Log LOG = LogFactory.getLog(UTI.class);
 
     static class Props {
 

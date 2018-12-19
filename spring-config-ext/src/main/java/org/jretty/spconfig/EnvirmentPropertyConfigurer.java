@@ -52,7 +52,7 @@ public class EnvirmentPropertyConfigurer extends PropertySourcesPlaceholderConfi
             protected void loadLocalConfig() {
                 if (globalLocations != null) {
                     for (int i = 0; i < globalLocations.length; i++) {
-                        Properties tmp = UT.Props.getProperties(globalLocations[i]);
+                        Properties tmp = UTI.Props.getProperties(globalLocations[i]);
                         add2Head(globalLocations[i].getFilename(), tmp);
                     }
                 }
