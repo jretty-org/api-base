@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   
   <parent>
-    <groupId>org.jretty.commons</groupId>
+    <groupId>org.jretty</groupId>
     <artifactId>commons-parent</artifactId>
     <version>1.0-RELEASE</version>
   </parent>
@@ -20,7 +20,7 @@
   
     <!-- central-config -->
     <dependency>
-      <groupId>org.jretty.commons</groupId>
+      <groupId>org.jretty</groupId>
       <artifactId>central-config</artifactId>
       <version>1.2.0</version>
     </dependency>
