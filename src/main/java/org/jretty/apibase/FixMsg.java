@@ -50,11 +50,6 @@ public class FixMsg implements IMsg {
         return msg;
     }
 
-    @Override
-    public String toString(String locale) {
-        return msg;
-    }
-
     public void setMsg(String msg) {
         this.msg = msg;
     }
@@ -63,4 +58,8 @@ public class FixMsg implements IMsg {
         this.code = code;
     }
 
+    @Override
+    public String toString(String locale) {
+        return code + ": " + msg;
+    }
 }
