@@ -6,6 +6,6 @@ api base entity
 <dependency>
   <groupId>org.jretty</groupId>
   <artifactId>api-base</artifactId>
-  <version>1.1</version>
+  <version>1.2</version>
 </dependency>
 ```
