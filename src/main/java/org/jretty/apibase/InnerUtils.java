@@ -71,10 +71,4 @@ class InnerUtils {
         return result.toString();
     }
 
-    /**
-     * @see #replaceParams(String, Object...)
-     */
-    public static String replaceParams(String s, String... objs) {
-        return replaceParams(s, (Object[]) objs);
-    }
 }

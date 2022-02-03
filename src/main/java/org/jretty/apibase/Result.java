@@ -46,7 +46,7 @@ public class Result<T> extends BaseResult {
     private T data;
     
     private IMsg imsg;
-    private String[] params;
+    private Object[] params;
     
     public Result() {
         setTimestamp(System.currentTimeMillis());
@@ -64,7 +64,7 @@ public class Result<T> extends BaseResult {
         }
     }
     
-    private void setImsg(IMsg imsg, String... params) {
+    private void setImsg(IMsg imsg, Object... params) {
         this.imsg = imsg;
         this.params = params;
     }
@@ -171,7 +171,7 @@ public class Result<T> extends BaseResult {
         return result;
     }
     
-    public static <T> Result<T> fail(IMsg imsg, String... params) {
+    public static <T> Result<T> fail(IMsg imsg, Object... params) {
         final Result<T> result = new Result<T>();
         result.setSuccess(false);
         result.imsg(imsg, params);
@@ -224,7 +224,7 @@ public class Result<T> extends BaseResult {
         return this;
     }
     
-    public Result<T> imsg(IMsg imsg, String... params) {
+    public Result<T> imsg(IMsg imsg, Object... params) {
         this.setImsg(imsg, params);
         this.setCode(imsg.getCode());
         this.setMsg(InnerUtils.replaceParams(imsg.getMsg(), params));
