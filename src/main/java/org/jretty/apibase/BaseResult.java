@@ -22,7 +22,8 @@ import java.util.HashMap;
  */
 public class BaseResult extends HashMap<Object, Object> {
     private static final long serialVersionUID = 2991693728111260232L;
-
+    protected static String defaultSuccessCode = "200";
+    protected static String defaultErrorCode = "500";
     /**
      * 返回标识号
      */
@@ -67,6 +68,7 @@ public class BaseResult extends HashMap<Object, Object> {
     public void setSuccess(boolean success) {
         this.success = success;
         super.put("success", success);
+        this.setCode(defaultSuccessCode);
     }
 
     /**

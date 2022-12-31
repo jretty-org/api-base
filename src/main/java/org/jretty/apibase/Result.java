@@ -37,9 +37,6 @@ import java.util.Map;
  */
 public class Result<T> extends BaseResult {
     private static final long serialVersionUID = 1L;
-    
-    private static String defaultErrorCode = "500";
-
     /**
      * 返回数据，可为基本类型（包装类），可以为其它可序列化对象
      */
@@ -100,8 +97,8 @@ public class Result<T> extends BaseResult {
      * @return TRUE if data is null or empty
      */
     public boolean dataEmpty() {
-        // 默认就有两个字段：{"success":true,"timestamp":1500117047167}
-        if (super.size() > 2) {
+        // 默认就有三个字段：{"success":true,"code":"200","timestamp":1500117047167}
+        if (super.size() > 3) {
             return false;
         }
         data = getData();
@@ -151,14 +148,14 @@ public class Result<T> extends BaseResult {
     public static <T> Result<T> fail() {
         Result<T> result = new Result<T>();
         result.setSuccess(false);
-        result.setCode(Result.defaultErrorCode);
+        result.setCode(BaseResult.defaultErrorCode);
         return result;
     }
     
     public static <T> Result<T> fail(String description) {
         Result<T> result = new Result<T>();
         result.setSuccess(false);
-        result.setCode(Result.defaultErrorCode);
+        result.setCode(BaseResult.defaultErrorCode);
         result.setMsg(description);
         return result;
     }
@@ -166,7 +163,7 @@ public class Result<T> extends BaseResult {
     public static <T> Result<T> fail(String code, String description) {
         Result<T> result = new Result<T>();
         result.setSuccess(false);
-        result.setCode(code != null ? code : Result.defaultErrorCode);
+        result.setCode(code != null ? code : BaseResult.defaultErrorCode);
         result.setMsg(description);
         return result;
     }
@@ -241,8 +238,9 @@ public class Result<T> extends BaseResult {
         return this;
     }
 
-    public static void setDefaultErrorCode(String defaultErrorCode) {
-        Result.defaultErrorCode = defaultErrorCode;
+    public static void setDefaultCode(String defaultErrorCode, String defaultSuccessCode) {
+        BaseResult.defaultErrorCode = defaultErrorCode;
+        BaseResult.defaultSuccessCode = defaultSuccessCode;
     }
     
     // override super
