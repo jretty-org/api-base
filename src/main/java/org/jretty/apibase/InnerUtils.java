@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2018-2019 the original author or authors.
+ * Copyright (C) 2018-2025 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License").
  * you may not use this file except in compliance with the License.
@@ -25,12 +25,14 @@ class InnerUtils {
      * 用objs[]的值去替换字符串s中的{}符号
      */
     public static String replaceParams(Object msg, Object... objs) {
-        if (msg == null)
+        if (msg == null) {
             return null;
+        }
         String s = msg.toString();
-        if (objs == null || objs.length == 0)
+        if (objs == null || objs.length == 0) {
             return s;
-        if (s.indexOf(REPLACE_LABEL) == -1) {
+        }
+        if (!s.contains(REPLACE_LABEL)) {
             StringBuilder result = new StringBuilder();
             result.append(s);
             for (Object obj : objs) {
@@ -39,30 +41,31 @@ class InnerUtils {
             return result.toString();
         }
 
-        String[] stra = new String[objs.length];
+        String[] strarr = new String[objs.length];
         int len = s.length();
         for (int i = 0; i < objs.length; i++) {
-            if (objs[i] != null)
-                stra[i] = objs[i].toString();
-            else {
-                stra[i] = "null";
+            if (objs[i] != null) {
+                strarr[i] = objs[i].toString();
+            } else {
+                strarr[i] = "null";
             }
-            len += stra[i].length();
+            len += strarr[i].length();
         }
 
         StringBuilder result = new StringBuilder(len);
         int cursor = 0;
         int index = 0;
         for (int start; (start = s.indexOf(REPLACE_LABEL, cursor)) != -1;) {
-            result.append(s.substring(cursor, start));
-            if (index < stra.length)
-                result.append(stra[index]);
-            else
+            result.append(s, cursor, start);
+            if (index < strarr.length) {
+                result.append(strarr[index]);
+            } else {
                 result.append(REPLACE_LABEL);
+            }
             cursor = start + 2;
             index++;
         }
-        result.append(s.substring(cursor, s.length()));
+        result.append(s, cursor, s.length());
         if (index < objs.length) {
             for (int i = index; i < objs.length; i++) {
                 result.append(" ").append(objs[i]);

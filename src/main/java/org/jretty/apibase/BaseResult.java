@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2015-2017 the original author or authors.
+ * Copyright (C) 2015-2025 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License").
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,8 @@ public class BaseResult extends HashMap<Object, Object> {
     private static final long serialVersionUID = 2991693728111260232L;
     protected static String defaultSuccessCode = "200";
     protected static String defaultErrorCode = "500";
+    protected static Integer defaultSuccessStatus = 200;
+    protected static Integer defaultErrorStatus = 500;
     /**
      * 返回标识号
      */
@@ -39,6 +41,8 @@ public class BaseResult extends HashMap<Object, Object> {
     private String msg;
     
     private Long timestamp;
+
+    private Integer status;
 
     /**
      * @return the sid
@@ -110,4 +114,12 @@ public class BaseResult extends HashMap<Object, Object> {
         super.put("timestamp", timestamp);
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+        super.put("status", status);
+    }
 }

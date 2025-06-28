@@ -8,7 +8,7 @@
     <version>21</version>
   </parent>
   <artifactId>api-base</artifactId>
-  <version>1.3</version>
+  <version>1.4</version>
   <packaging>jar</packaging>
   <name>api-base</name>
   
@@ -31,7 +31,7 @@
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
-      <version>1.2.79</version>
+      <version>1.2.83</version>
       <scope>test</scope>
     </dependency>
 

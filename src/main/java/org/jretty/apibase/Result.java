@@ -107,7 +107,7 @@ public class Result<T> extends BaseResult {
         }
         if (data instanceof String) {
             String str = (String) data;
-            return "".equals(str);
+            return str.isEmpty();
         } else if (data instanceof Collection) {
             Collection<?> list = (Collection<?>) data;
             return list.isEmpty();
@@ -171,7 +171,7 @@ public class Result<T> extends BaseResult {
     public static <T> Result<T> fail(IMsg imsg, Object... params) {
         final Result<T> result = new Result<T>();
         result.setSuccess(false);
-        result.imsg(imsg, params);
+        result.msg(imsg, params);
         return result;
     }
     
@@ -216,18 +216,24 @@ public class Result<T> extends BaseResult {
         return this;
     }
 
+    public Result<T> status(Integer status) {
+        this.setStatus(status);
+        return this;
+    }
+
     public Result<T> data(T data) {
         this.setData(data);
         return this;
     }
     
-    public Result<T> imsg(IMsg imsg, Object... params) {
+    public Result<T> msg(IMsg imsg, Object... params) {
         this.setImsg(imsg, params);
         this.setCode(imsg.getCode());
         this.setMsg(InnerUtils.replaceParams(imsg.getMsg(), params));
         return this;
     }
-    
+
+    @Override
     public Result<T> put(Object key, Object value) {
         super.put(key, value);
         return this;
@@ -242,11 +248,17 @@ public class Result<T> extends BaseResult {
         BaseResult.defaultErrorCode = defaultErrorCode;
         BaseResult.defaultSuccessCode = defaultSuccessCode;
     }
+
+    public static void setDefaultStatus(Integer defaultSuccessStatus, Integer defaultErrorStatus) {
+        BaseResult.defaultSuccessStatus = defaultSuccessStatus;
+        BaseResult.defaultErrorStatus = defaultErrorStatus;
+    }
     
     // override super
     /**
      * @return the sid
      */
+    @Override
     public String getSid() {
         return (String) super.get("sid");
     }
@@ -254,6 +266,7 @@ public class Result<T> extends BaseResult {
     /**
      * @return the success
      */
+    @Override
     public Boolean isSuccess() {
         return (Boolean) super.get("success");
     }
@@ -261,6 +274,7 @@ public class Result<T> extends BaseResult {
     /**
      * @return the code
      */
+    @Override
     public String getCode() {
         return (String) super.get("code");
     }
@@ -268,11 +282,18 @@ public class Result<T> extends BaseResult {
     /**
      * @return the description
      */
+    @Override
     public String getMsg() {
         return (String) super.get("msg");
     }
-    
+
+    @Override
     public Long getTimestamp() {
         return (Long) super.get("timestamp");
+    }
+
+    @Override
+    public Integer getStatus() {
+        return (Integer) super.get("status");
     }
 }
