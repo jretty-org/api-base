@@ -22,16 +22,16 @@ public class FixMsg implements IMsg {
     
     private String code;
     
-    private String msg;
+    private String message;
     
     public FixMsg(String code) {
         super();
         this.code = code;
     }
     
-    public FixMsg(String code, String msg) {
+    public FixMsg(String code, String message) {
         super();
-        this.msg = msg;
+        this.message = message;
         this.code = code;
     }
     
@@ -41,17 +41,17 @@ public class FixMsg implements IMsg {
     }
 
     @Override
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
     @Override
-    public String getMsg(String locale) {
-        return msg;
+    public String getMessage(String locale) {
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String msg) {
+        this.message = message;
     }
 
     public void setCode(String code) {
@@ -60,6 +60,6 @@ public class FixMsg implements IMsg {
 
     @Override
     public String toString(String locale) {
-        return code + ": " + msg;
+        return code + ": " + message;
     }
 }

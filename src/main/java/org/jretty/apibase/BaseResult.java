@@ -38,7 +38,7 @@ public class BaseResult extends HashMap<Object, Object> {
     private String code;
 
     /** 描述 */
-    private String msg;
+    private String message;
     
     private Long timestamp;
 
@@ -93,16 +93,16 @@ public class BaseResult extends HashMap<Object, Object> {
     /**
      * @return the description
      */
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
     /**
-     * @param msg
+     * @param message
      */
-    public void setMsg(String msg) {
-        this.msg = msg;
-        super.put("msg", msg);
+    public void setMessage(String message) {
+        this.message = message;
+        super.put("message", message);
     }
 
     public Long getTimestamp() {

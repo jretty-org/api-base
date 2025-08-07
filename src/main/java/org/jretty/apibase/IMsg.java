@@ -28,13 +28,13 @@ public interface IMsg {
     /** 
      * Get the msg using default strategy.
      */
-    public String getMsg();
+    public String getMessage();
     
     /** 
      * Get the msg using the designated locale.
      * @param locale such as zh_CN, en_US...
      */
-    public String getMsg(String locale);
+    public String getMessage(String locale);
     
     /** 
      * Get the code + msg description using the designated locale.

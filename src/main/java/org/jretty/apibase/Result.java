@@ -68,7 +68,7 @@ public class Result<T> extends BaseResult {
     
     public void setLocale(String locale) {
         if (imsg != null && locale != null) {
-            this.setMsg(InnerUtils.replaceParams(imsg.getMsg(locale), params));
+            this.setMessage(InnerUtils.replaceParams(imsg.getMessage(locale), params));
         }
     }
     
@@ -156,7 +156,7 @@ public class Result<T> extends BaseResult {
         Result<T> result = new Result<T>();
         result.setSuccess(false);
         result.setCode(BaseResult.defaultErrorCode);
-        result.setMsg(description);
+        result.setMessage(description);
         return result;
     }
     
@@ -164,7 +164,7 @@ public class Result<T> extends BaseResult {
         Result<T> result = new Result<T>();
         result.setSuccess(false);
         result.setCode(code != null ? code : BaseResult.defaultErrorCode);
-        result.setMsg(description);
+        result.setMessage(description);
         return result;
     }
     
@@ -192,8 +192,8 @@ public class Result<T> extends BaseResult {
         return this;
     }
 
-    public Result<T> msg(String msg) {
-        this.setMsg(msg);
+    public Result<T> message(String message) {
+        this.setMessage(message);
         return this;
     }
     
@@ -229,7 +229,7 @@ public class Result<T> extends BaseResult {
     public Result<T> msg(IMsg imsg, Object... params) {
         this.setImsg(imsg, params);
         this.setCode(imsg.getCode());
-        this.setMsg(InnerUtils.replaceParams(imsg.getMsg(), params));
+        this.setMessage(InnerUtils.replaceParams(imsg.getMessage(), params));
         return this;
     }
 
@@ -283,8 +283,8 @@ public class Result<T> extends BaseResult {
      * @return the description
      */
     @Override
-    public String getMsg() {
-        return (String) super.get("msg");
+    public String getMessage() {
+        return (String) super.get("message");
     }
 
     @Override

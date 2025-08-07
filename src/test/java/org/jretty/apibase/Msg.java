@@ -87,7 +87,7 @@ public enum Msg implements IMsg {
         this.msgZhCN = msgZhCN;
         this.msgEnUS = msgEnUS;
         this.msgZhTW = msgZhTW;
-        this.code = newCode(this.name(), getMsg());
+        this.code = newCode(this.name(), getMessage());
     }
     
     /** 
@@ -109,7 +109,7 @@ public enum Msg implements IMsg {
     }
     
     @Override
-    public String getMsg() {
+    public String getMessage() {
         if (msgZhCN != null) {
             return msgZhCN;
         }
@@ -123,7 +123,7 @@ public enum Msg implements IMsg {
     }
     
     @Override
-    public String getMsg(String local) {
+    public String getMessage(String local) {
         if ("zh_CN".equals(local)) {
             return msgZhCN;
         }
@@ -136,17 +136,17 @@ public enum Msg implements IMsg {
             return msgZhTW;
         }
 
-        return getMsg();
+        return getMessage();
     }
     
     @Override
     public String toString(){
-        return code + "=[" + this.name() + "] " + getMsg();
+        return code + "=[" + this.name() + "] " + getMessage();
     }
     
     @Override
     public String toString(String local){
-        return code + "=[" + this.name() + "] " + getMsg(local);
+        return code + "=[" + this.name() + "] " + getMessage(local);
     }
     
     private static String newCode(String name, String errorMsg) {
