@@ -1,6 +1,6 @@
-/* 
- * Copyright (C) 2015-2017 the original author or authors.
- * 
+/*
+ * Copyright (C) 2015-2025 the original author or authors.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,7 +18,7 @@ import java.util.Map;
 
 /**
  * 泛型结果类（包含返回data）<br/>
- * 
+ * <p>
  * return Result.success();<br/>
  * or <br/>
  * return result.success(data);<br/>
@@ -27,11 +27,11 @@ import java.util.Map;
  * or <br/>
  * return result.fail(IMsg msg) <br/>
  * <br/>
- * 
+ * <p>
  * or you can do chained callings like below:<br/><br/>
- *
+ * <p>
  * result.success().put("user", "admin").put("menuList", menuList); <br/>
- * 
+ *
  * @author zollty
  * @since 2015/9/14
  */
@@ -41,10 +41,10 @@ public class Result<T> extends BaseResult {
      * 返回数据，可为基本类型（包装类），可以为其它可序列化对象
      */
     private T data;
-    
+
     private IMsg imsg;
     private Object[] params;
-    
+
     public Result() {
         setTimestamp(System.currentTimeMillis());
     }
@@ -60,18 +60,28 @@ public class Result<T> extends BaseResult {
             super.put("data", data);
         }
     }
-    
+
     private void setImsg(IMsg imsg, Object... params) {
         this.imsg = imsg;
         this.params = params;
     }
-    
+
     public void setLocale(String locale) {
         if (imsg != null && locale != null) {
             this.setMessage(InnerUtils.replaceParams(imsg.getMessage(locale), params));
         }
     }
-    
+
+    public void setLocale(String locale, Map<String, String> localeMessages) {
+        if (imsg != null && locale != null) {
+            String localeMsg = localeMessages.get(imsg.getCode());
+            if (localeMsg == null) {
+                localeMsg = imsg.getMessage(locale);
+            }
+            this.setMessage(InnerUtils.replaceParams(localeMsg, params));
+        }
+    }
+
     /**
      * !isSuccess()
      */
@@ -93,7 +103,7 @@ public class Result<T> extends BaseResult {
      * 如果是Collection(List等)对象,则判断是否为空列表（isEmpty)<br/>
      * 如果是Map对象,则判断是否为空Map(isEmpty)<br/>
      * 如果是Array数组，则判断是否为空数组(length == 0)
-     * 
+     *
      * @return TRUE if data is null or empty
      */
     public boolean dataEmpty() {
@@ -135,7 +145,7 @@ public class Result<T> extends BaseResult {
         result.setData(data);
         return result;
     }
-    
+
     public static <T> Result<T> success(Map<?, ?> map) {
         Result<T> result = new Result<T>();
         result.setSuccess(true);
@@ -151,7 +161,7 @@ public class Result<T> extends BaseResult {
         result.setCode(BaseResult.defaultErrorCode);
         return result;
     }
-    
+
     public static <T> Result<T> fail(String description) {
         Result<T> result = new Result<T>();
         result.setSuccess(false);
@@ -159,7 +169,7 @@ public class Result<T> extends BaseResult {
         result.setMessage(description);
         return result;
     }
-    
+
     public static <T> Result<T> fail(String code, String description) {
         Result<T> result = new Result<T>();
         result.setSuccess(false);
@@ -167,26 +177,60 @@ public class Result<T> extends BaseResult {
         result.setMessage(description);
         return result;
     }
-    
+
     public static <T> Result<T> fail(IMsg imsg, Object... params) {
         final Result<T> result = new Result<T>();
         result.setSuccess(false);
         result.msg(imsg, params);
         return result;
     }
-    
-    /** 创建一个Result对象，稍后才为其设置success状态和data等值。success默认为false */
+
+    // 参数错误
+    public static <T> Result<T> failParam(String message) {
+        return fail(MsgBase.PARAM_INVALID, message);
+    }
+
+    // 状态错误
+    public static <T> Result<T> failState(String message) {
+        return fail(MsgBase.STATE_ERROR, message);
+    }
+
+    // 权限错误
+    public static <T> Result<T> failPerm(String message) {
+        return fail(MsgBase.PERMISSION_DENIED, message);
+    }
+
+    // 业务错误
+    public static <T> Result<T> failBiz(String message) {
+        return fail(MsgBase.BUSINESS_ERROR, message);
+    }
+
+    // 数据错误
+    public static <T> Result<T> failData(String message) {
+        return fail(MsgBase.DATA_ERROR, message);
+    }
+
+    // 系统错误
+    public static <T> Result<T> failSys(String message) {
+        return fail(MsgBase.SYSTEM_ERROR, message);
+    }
+
+    /**
+     * 创建一个Result对象，稍后才为其设置success状态和data等值。success默认为false
+     */
     public static <T> Result<T> create() {
         Result<T> result = new Result<T>();
         result.setSuccess(false);
         return result;
     }
-    
-    /** 创建一个Result对象并设置data，稍后才为其设置success状态和其他数据。success默认为true */
+
+    /**
+     * 创建一个Result对象并设置data，稍后才为其设置success状态和其他数据。success默认为true
+     */
     public static <T> Result<T> create(T data) {
         return success(data);
     }
-    
+
     public Result<T> code(String code) {
         this.setCode(code);
         return this;
@@ -196,12 +240,12 @@ public class Result<T> extends BaseResult {
         this.setMessage(message);
         return this;
     }
-    
+
     public Result<T> success(boolean success) {
         this.setSuccess(success);
         return this;
     }
-    
+
     public Result<T> failed() {
         return success(false);
     }
@@ -210,7 +254,7 @@ public class Result<T> extends BaseResult {
         this.setSid(sid);
         return this;
     }
-    
+
     public Result<T> timestamp(Long timestamp) {
         this.setTimestamp(timestamp);
         return this;
@@ -225,7 +269,7 @@ public class Result<T> extends BaseResult {
         this.setData(data);
         return this;
     }
-    
+
     public Result<T> msg(IMsg imsg, Object... params) {
         this.setImsg(imsg, params);
         this.setCode(imsg.getCode());
@@ -238,7 +282,7 @@ public class Result<T> extends BaseResult {
         super.put(key, value);
         return this;
     }
-    
+
     public Result<T> putMap(Map<Object, Object> m) {
         super.putAll(m);
         return this;
@@ -253,8 +297,9 @@ public class Result<T> extends BaseResult {
         BaseResult.defaultSuccessStatus = defaultSuccessStatus;
         BaseResult.defaultErrorStatus = defaultErrorStatus;
     }
-    
+
     // override super
+
     /**
      * @return the sid
      */
@@ -262,7 +307,7 @@ public class Result<T> extends BaseResult {
     public String getSid() {
         return (String) super.get("sid");
     }
-    
+
     /**
      * @return the success
      */
@@ -270,7 +315,7 @@ public class Result<T> extends BaseResult {
     public Boolean isSuccess() {
         return (Boolean) super.get("success");
     }
-    
+
     /**
      * @return the code
      */
@@ -278,7 +323,7 @@ public class Result<T> extends BaseResult {
     public String getCode() {
         return (String) super.get("code");
     }
-    
+
     /**
      * @return the description
      */
