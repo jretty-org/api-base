@@ -196,7 +196,7 @@ public class Result<T> extends BaseResult {
     }
 
     // 权限错误
-    public static <T> Result<T> failPerm(String message) {
+    public static <T> Result<T> failPermission(String message) {
         return fail(MsgBase.PERMISSION_DENIED, message);
     }
 
