@@ -92,36 +92,36 @@ public enum MsgBase implements IMsg {
     FAILED("500", "操作失败", "Failed.", "操作失敗"),
 
     /** 参数错误 {} */
-    PARAM_INVALID("B0100", "参数错误 {}", "Param Error {}", "無效的參數：{}"),
+    PARAM_INVALID("A0100", "参数错误 {}", "Param Error {}", "無效的參數：{}"),
     /** 参数{}不能为空！ */
-    PARAM_EMPTY("B0102", "参数`{}`不能为空！", "Arguments `{}` can not be empty!", "參數`{}`不能為空！"),
+    PARAM_EMPTY("A0102", "参数`{}`不能为空！", "Arguments `{}` can not be empty!", "參數`{}`不能為空！"),
 
     /** 状态错误 {} */
-    STATE_ERROR("B0200", "状态错误 {}", "State Error {}"),
+    STATE_ERROR("A0200", "状态错误 {}", "State Error {}"),
 
     /** 权限错误 {} */
-    PERMISSION_DENIED("B0300", "权限错误 {}", "Permission Denied {}"),
+    PERMISSION_DENIED("A0300", "权限错误 {}", "Permission Denied {}"),
 
     /** 业务错误 {} */
-    BUSINESS_ERROR("B0400", "业务错误 {}", "Business Error {}"),
+    BUSINESS_ERROR("A0400", "业务错误 {}", "Business Error {}"),
     /** 数据错误 */
-    DATA_ERROR("B0401", "数据错误 {}", "Data Error {}"),
+    DATA_ERROR("A0401", "数据错误 {}", "Data Error {}"),
     /** {}数据不存在 */
-    DATA_NOT_FOUND("B0402", "`{}`数据不存在", "`{}` Data Not Found"),
+    DATA_NOT_FOUND("A0402", "`{}`数据不存在", "`{}` Data Not Found"),
 
     /** 系统异常 {} */
-    SYSTEM_ERROR("B0500", "系统异常 {}", "System Error {}", "系統異常 {}"),
+    SYSTEM_ERROR("A0500", "系统异常 {}", "System Error {}", "系統異常 {}"),
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     /** 【@Deprecated 不推荐使用】 系统异常（省略具体信息） */
-    OMIT_SYSTEM_ERR("B0000", "系统异常", "System Error", "系統異常"),
+    OMIT_SYSTEM_ERR("A0000", "系统异常", "System Error", "系統異常"),
 
     /** 【@Deprecated 不推荐使用】 未知错误，参见：{} */
-    UNKNOWN_ERR("B0001", "未知错误，参见：{}", "Unexpected error. See: {}", "未知錯誤，參見：{}"),
+    UNKNOWN_ERR("A0001", "未知错误，参见：{}", "Unexpected error. See: {}", "未知錯誤，參見：{}"),
 
     /** 【@Deprecated 不推荐使用】 未定义错误，参见：{} */
-    UNDEFINED_ERR("B0002", "未定义错误，参见：{}", "Undefined error. See: {}", "未定義錯誤，參見：{}"),
+    UNDEFINED_ERR("A0002", "未定义错误，参见：{}", "Undefined error. See: {}", "未定義錯誤，參見：{}"),
     
     // -- 其他自定义的错误类型
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
